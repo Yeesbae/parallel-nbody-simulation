@@ -46,7 +46,7 @@ def simulate(implementation, num_of_particles, steps, dt):
     return [implementation, num_of_particles, steps, dt, total_runtime_s, interactions, interactions_per_s]
 
 def save_results(results):
-    with open('results/simulation_results.csv', 'w', newline='') as f:
+    with open('results/data/simulation_results.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(["implementation", "num_of_particles", "steps", "dt", "total_runtime_s", "interactions", "interactions_per_s"])
         writer.writerows(results)
