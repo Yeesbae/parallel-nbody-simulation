@@ -1,23 +1,12 @@
 import physics as phy
+import utils
 import numpy as np
 import csv
 import time
 
-def create_particles(num_of_particles):
-    positions = []
-    velocities = []
-    masses = []
-    rng = np.random.default_rng(seed=42)
-
-    for _ in range(num_of_particles):
-        positions.append([rng.uniform(low=-1.0, high=1.0), rng.uniform(low=-1.0, high=1.0)])
-        velocities.append([0, 0])
-        masses.append(1.0)
-
-    return (positions, velocities, masses)
     
 def simulate(implementation, num_of_particles, steps, dt):
-    positions, velocities, masses = create_particles(num_of_particles)
+    positions, velocities, masses = utils.create_particles(num_of_particles)
     total_runtime_s = 0
     
     start = time.perf_counter()
