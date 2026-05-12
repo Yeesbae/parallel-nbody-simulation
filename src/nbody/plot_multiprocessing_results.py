@@ -36,8 +36,7 @@ def plot_comparison(naive_df, multiprocessing_df):
     plt.ylabel('Total Runtime (s)')
     plt.yscale('log')
     
-    markers = ['o', 's', '^', 'D', 'v', '*', 'p', 'h']
-    for idx, chunk in enumerate(chunk_scaling_df['num_chunks'].unique()):
+    for chunk in chunk_scaling_df['num_chunks'].unique():
         plt.plot(chunk_scaling_df[chunk_scaling_df['num_chunks'] == chunk]['num_of_particles'], chunk_scaling_df[chunk_scaling_df['num_chunks'] == chunk]['total_runtime_s'], label=f'Multiprocessing ({chunk} chunks)', marker='x')
     plt.plot(naive_df['num_of_particles'], naive_df['total_runtime_s'], label='Naive', marker='.')
     
