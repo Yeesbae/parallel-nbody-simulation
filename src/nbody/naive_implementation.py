@@ -4,7 +4,6 @@ import numpy as np
 import csv
 import time
 
-    
 def simulate(implementation, num_of_particles, steps, dt):
     positions, velocities, masses = utils.create_particles(num_of_particles)
     total_runtime_s = 0
@@ -45,7 +44,7 @@ def main():
     implementation = 'naive'
     num_of_particles = [10, 50, 100, 200, 500]
     steps = [1, 5, 10]
-    dt =0.01
+    dt = 0.01
     all_results = []
     
     for particle in num_of_particles:

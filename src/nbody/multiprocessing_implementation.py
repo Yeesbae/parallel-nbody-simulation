@@ -1,10 +1,9 @@
-from multiprocessing import Pool
 import time
 import csv
 import numpy as np
 import physics as phy
+import multiprocessing as mp
 import utils
-import naive
 
 IMPLEMENTATION = 'multiprocessing'
 WORKERS = [1, 2, 4, 8]
@@ -27,7 +26,7 @@ def simulate(implementation, particle, step, dt, worker_count, num_chunks):
     total_runtime_s = 0
     start = time.perf_counter()
     
-    with Pool(worker_count) as pool:
+    with mp.Pool(processes=worker_count) as pool:
         for _ in range(step):
             tasks = []
             forces = [None] * len(positions)
@@ -67,7 +66,6 @@ def save_results(results):
         writer.writerows(results)
     return 0
 
-
 def main():
     results = []
     for worker in WORKERS:
@@ -81,6 +79,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-                
-            
-        
