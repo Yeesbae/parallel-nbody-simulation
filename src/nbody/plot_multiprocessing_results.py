@@ -23,8 +23,8 @@ def plot_comparison(naive_df, multiprocessing_df):
     plt.yscale('log')
     
     for worker in worker_scaling_df['worker_count'].unique():
-        plt.plot(worker_scaling_df[worker_scaling_df['worker_count'] == worker]['num_of_particles'], worker_scaling_df[worker_scaling_df['worker_count'] == worker]['total_runtime_s'], label=f'Multiprocessing ({worker} workers)', marker='o')
-    plt.plot(naive_df['num_of_particles'], naive_df['total_runtime_s'], label='Naive', marker='o')
+        plt.plot(worker_scaling_df[worker_scaling_df['worker_count'] == worker]['num_of_particles'], worker_scaling_df[worker_scaling_df['worker_count'] == worker]['total_runtime_s'], label=f'Multiprocessing ({worker} workers)', marker='x')
+    plt.plot(naive_df['num_of_particles'], naive_df['total_runtime_s'], label='Naive', marker='.')
     
     plt.grid(True)  
     plt.legend()
@@ -36,9 +36,10 @@ def plot_comparison(naive_df, multiprocessing_df):
     plt.ylabel('Total Runtime (s)')
     plt.yscale('log')
     
-    for chunk in chunk_scaling_df['num_chunks'].unique():
-        plt.plot(chunk_scaling_df[chunk_scaling_df['num_chunks'] == chunk]['num_of_particles'], chunk_scaling_df[chunk_scaling_df['num_chunks'] == chunk]['total_runtime_s'], label=f'Multiprocessing ({chunk} chunks)', marker = 'o')
-    plt.plot(naive_df['num_of_particles'], naive_df['total_runtime_s'], label='Naive', marker='o')
+    markers = ['o', 's', '^', 'D', 'v', '*', 'p', 'h']
+    for idx, chunk in enumerate(chunk_scaling_df['num_chunks'].unique()):
+        plt.plot(chunk_scaling_df[chunk_scaling_df['num_chunks'] == chunk]['num_of_particles'], chunk_scaling_df[chunk_scaling_df['num_chunks'] == chunk]['total_runtime_s'], label=f'Multiprocessing ({chunk} chunks)', marker='x')
+    plt.plot(naive_df['num_of_particles'], naive_df['total_runtime_s'], label='Naive', marker='.')
     
     plt.grid(True)
     plt.legend()
