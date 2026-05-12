@@ -2,9 +2,10 @@ import matplotlib.pyplot as plt
 from plot_results import load_results
 
 def process_multiprocessing_results(df):
-    mp_df = df[(df['steps'] == 10) & (df['worker_count'] == df['num_chunks'])]
-    print(mp_df)
-    return mp_df
+    worker_scaling_df = df[(df['steps'] == 10) & (df['worker_count'] == df['num_chunks'])]
+    chunk_scaling_df = df[(df['steps'] == 10) & (df['worker_count'] == 4)]
+    # print(chunk_scaling_df)
+    return worker_scaling_df, chunk_scaling_df
 
 def process_naive_results(df):
     # Return a fixed step = 10
@@ -13,16 +14,33 @@ def process_naive_results(df):
     return naive_df
 
 def plot_comparison(naive_df, multiprocessing_df):
-    # plot runtime comparison
+    # plot runtime comparison using fixed step and worker count = num_chunks
+    worker_scaling_df, chunk_scaling_df = multiprocessing_df
     plt.figure()
-    plt.title('Runtime Comparison')
+    plt.title('Runtime Comparison Worker scaling')
     plt.xlabel('Number of Particles')
     plt.ylabel('Total Runtime (s)')
     plt.yscale('log')
-    for worker in multiprocessing_df['worker_count'].unique():
-        plt.plot(multiprocessing_df[multiprocessing_df['worker_count'] == worker]['num_of_particles'], multiprocessing_df[multiprocessing_df['worker_count'] == worker]['total_runtime_s'], label=f'Multiprocessing ({worker} workers)', marker='o')
+    
+    for worker in worker_scaling_df['worker_count'].unique():
+        plt.plot(worker_scaling_df[worker_scaling_df['worker_count'] == worker]['num_of_particles'], worker_scaling_df[worker_scaling_df['worker_count'] == worker]['total_runtime_s'], label=f'Multiprocessing ({worker} workers)', marker='o')
     plt.plot(naive_df['num_of_particles'], naive_df['total_runtime_s'], label='Naive', marker='o')
+    
     plt.grid(True)  
+    plt.legend()
+    plt.show()
+    
+    plt.figure()
+    plt.title('Runtime Comparison Chunk scaling')
+    plt.xlabel('Number of Particles')
+    plt.ylabel('Total Runtime (s)')
+    plt.yscale('log')
+    
+    for chunk in chunk_scaling_df['num_chunks'].unique():
+        plt.plot(chunk_scaling_df[chunk_scaling_df['num_chunks'] == chunk]['num_of_particles'], chunk_scaling_df[chunk_scaling_df['num_chunks'] == chunk]['total_runtime_s'], label=f'Multiprocessing ({chunk} chunks)', marker = 'o')
+    plt.plot(naive_df['num_of_particles'], naive_df['total_runtime_s'], label='Naive', marker='o')
+    
+    plt.grid(True)
     plt.legend()
     plt.show()
     
