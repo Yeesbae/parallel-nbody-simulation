@@ -52,10 +52,11 @@ def plot_comparison(naive_df, multiprocessing_df):
     for worker in worker_scaling_df['worker_count'].unique():
         plt.plot(worker_scaling_df[worker_scaling_df['worker_count'] == worker]['num_of_particles'], worker_scaling_df[worker_scaling_df['worker_count'] == worker]['total_runtime_s'], label=f'Multiprocessing ({worker} workers)', marker='x')
     plt.plot(naive_df['num_of_particles'], naive_df['total_runtime_s'], label='Naive', marker='.')
-    
-    plt.grid(True)  
+
+    plt.grid(True)
     plt.legend()
-    
+    plt.savefig('results/plots/runtime_comparison_worker_scaling.png', dpi=150, bbox_inches='tight')
+
     plt.figure()
     plt.title('Runtime Comparison Chunk scaling')
     plt.xlabel('Number of Particles')
@@ -64,10 +65,11 @@ def plot_comparison(naive_df, multiprocessing_df):
     for chunk in chunk_scaling_df['num_chunks'].unique():
         plt.plot(chunk_scaling_df[chunk_scaling_df['num_chunks'] == chunk]['num_of_particles'], chunk_scaling_df[chunk_scaling_df['num_chunks'] == chunk]['total_runtime_s'], label=f'Multiprocessing ({chunk} chunks)', marker='x')
     plt.plot(naive_df['num_of_particles'], naive_df['total_runtime_s'], label='Naive', marker='.')
-    
+
     plt.grid(True)
     plt.legend()
-    
+    plt.savefig('results/plots/runtime_comparison_chunk_scaling.png', dpi=150, bbox_inches='tight')
+
     plt.figure()
     plt.title('Speed up comparison')
     plt.xlabel('Worker Count')
@@ -76,28 +78,32 @@ def plot_comparison(naive_df, multiprocessing_df):
     plt.plot(speed_up_df['worker_count'], speed_up_df['worker_count'], label='Ideal', marker='x')
     plt.grid(True)
     plt.legend()
-    
+    plt.savefig('results/plots/speedup_comparison.png', dpi=150, bbox_inches='tight')
+
     plt.figure()
     plt.title('Efficiency vs Worker Count')
     plt.xlabel('Worker Count')
     plt.ylabel('Efficiency')
     plt.plot(efficiency_df['worker_count'], efficiency_df['efficiency'], label='Varying workers', marker='x')
     plt.legend()
-    
+    plt.savefig('results/plots/efficiency_vs_worker_count.png', dpi=150, bbox_inches='tight')
+
     plt.figure()
     plt.title('Runtime vs Chunks')
     plt.xlabel('Number of Chunks')
     plt.ylabel('Runtime (s)')
     plt.plot(runtime_chunks_df['num_chunks'], runtime_chunks_df['total_runtime_s'], label='100 particles', marker='o')
     plt.legend()
-    
+    plt.savefig('results/plots/runtime_vs_chunks.png', dpi=150, bbox_inches='tight')
+
     plt.figure()
     plt.title('Efficiency vs Number of Chunks')
     plt.xlabel('Number of Chunks')
     plt.ylabel('Efficiency')
     plt.plot(efficiency_chunk_df['num_chunks'], efficiency_chunk_df['efficiency'], label='Efficiency vs Number of Chunks', marker='x')
     plt.legend()
-    
+    plt.savefig('results/plots/efficiency_vs_chunks.png', dpi=150, bbox_inches='tight')
+
     plt.figure()
     plt.title('Runtime Complexity')
     plt.xlabel('Number of Particles')
@@ -106,6 +112,8 @@ def plot_comparison(naive_df, multiprocessing_df):
     plt.plot(particles, fitted, linestyle='--', label='O(n²) fit')
     plt.plot(best_mp_df['num_of_particles'], best_mp_df['total_runtime_s'], marker='x', label='Multiprocessing (8 workers)')
     plt.legend()
+    plt.savefig('results/plots/runtime_complexity.png', dpi=150, bbox_inches='tight')
+
     
     plt.show()
     
